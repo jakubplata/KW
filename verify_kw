@@ -1,7 +1,0 @@
-
-
-class VerifyKW(object):
-
-    def __init__(self, numer):
-        self.numer = numer
-
