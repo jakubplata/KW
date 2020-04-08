@@ -10,15 +10,17 @@ def test_default_verify_kw():
     assert vk.number == ''
 
 
-@pytest.mark.parametrize("val,exp", [('KW 2564', 'KW2564'),
-                                     ('KW  2555', 'KW2555')
+@pytest.mark.parametrize("val,exp", [('LD1Y/00000351/8', True), ('KW  2555', False), ('JD1Y/00000351/8', False),
+                                     ('LD1Y/00000351/5', False), ('LD1Y/0000351/5', False), ('test', False)
                                      ])
-def test_remove_spaces(val, exp):
+def test_is_valid(val, exp):
     vk = VerifyKW(number=val)
-    vk.remove_spaces()
+    assert vk.is_valid() == exp
+
+
+@pytest.mark.parametrize("val,exp", [('KW  2555', 'LD1Y/00002555/2'), ('KW LD1Y/00000351/8', 'LD1Y/00000351/8'),
+                                     ('ZD 2564', 'ZD 2564')])
+def test_modify(val, exp):
+    vk = VerifyKW(number=val)
+    vk.modify('LD1Y')
     assert vk.number == exp
-
-
-def test__is_valid():
-    vk = VerifyKW(number='LD1Y/00000351/8')
-    assert vk.is_valid() == True
