@@ -2,11 +2,16 @@
 from static import SADY, ZNAKI, WAGI
 
 
-class VerifyKW(object):
+class KsiegaWieczysta(object):
 
-    def __init__(self, number=''):
-        self.number = number
-        self.orginal = number
+    def __init__(self, numer=''):
+        self.numer = numer
+        self.original = numer
+        self.wojewodztwo = ''
+        self.powiat = ''
+        self.gmina = ''
+        self.miejscowosc = ''
+        self.dzielnica = ''
 
     def ck(self, sad, num):
         suma = 0
@@ -16,7 +21,7 @@ class VerifyKW(object):
         return str(suma % 10)
 
     def is_valid(self):
-        num_split = self.number.split('/')
+        num_split = self.numer.split('/')
         if len(num_split) == 3:
             sad, num, ck = num_split
             if sad in SADY:
@@ -27,20 +32,13 @@ class VerifyKW(object):
         return False
 
     def modify(self, sad):
-        self.number = self.number.replace(' ', '').replace('KW', '')
+        self.numer = self.numer.replace(' ', '').replace('KW', '')
         if not self.is_valid():
             try:
-                int(self.number)
+                int(self.numer)
             except ValueError:
-                self.number = self.orginal
+                self.numer = self.original
             else:
-                num = self.number.zfill(8)
+                num = self.numer.zfill(8)
                 ck = self.ck(sad, num)
-                self.number = '/'.join((sad, num, ck))
-
-
-
-
-
-
-
+                self.numer = '/'.join((sad, num, ck))
