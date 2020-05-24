@@ -7,11 +7,10 @@ class KsiegaWieczysta(object):
     def __init__(self, numer=''):
         self.numer = numer
         self.original = numer
-        self.wojewodztwo = ''
-        self.powiat = ''
-        self.gmina = ''
-        self.miejscowosc = ''
-        self.dzielnica = ''
+        self.polozenie = {}
+        self.zamknieta = ''
+        self.zakmnieta_tresc = ''
+        self.dzialki = []
 
     def ck(self, sad, num):
         suma = 0
@@ -42,3 +41,6 @@ class KsiegaWieczysta(object):
                 num = self.numer.zfill(8)
                 ck = self.ck(sad, num)
                 self.numer = '/'.join((sad, num, ck))
+
+    def clear_dzialki(self):
+        self.dzialki = [dz for dz in self.dzialki if dz.numer not in  ('---', '//', '')]
