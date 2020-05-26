@@ -2,6 +2,7 @@
 
 import pytest
 from ksiega_wieczysta import KsiegaWieczysta
+from dzialka import Dzialka
 
 
 def test_default_verify_kw():
@@ -24,3 +25,15 @@ def test_modify(val, exp):
     vk = KsiegaWieczysta(numer=val)
     vk.modify('LD1Y')
     assert vk.numer == exp
+
+
+def test_clar_dzialki():
+    vk = KsiegaWieczysta(numer='LD1Y/00002555/2')
+    for i in ['', '//', '---', '100', '200']:
+        d = Dzialka()
+        d.numer = i
+        vk.dzialki.append(d)
+    vk.clear_dzialki()
+    assert len(vk.dzialki) == 2
+    for dz in vk.dzialki:
+        assert dz.numer in ['100', '200']
